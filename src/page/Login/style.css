@@ -1,0 +1,51 @@
+#login{
+    background-color: #324057;
+    height: 100%;
+}
+#login .login-warp{
+    width: 370px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -185px;
+    margin-top: -180px;
+}
+#login p{
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;;
+}
+#login .login-box{
+    width: 370px;
+    height: 260px;
+    padding: 25px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 5px;
+}
+#login input[type=text]{
+    height: 36px;
+    line-height: 36px;
+}
+#login button{
+    width: 320px;
+}
+
+#login .tip{
+    color: red;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+}

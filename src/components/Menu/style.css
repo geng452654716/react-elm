@@ -1,0 +1,15 @@
+/*.Menu{
+    height: 56px;
+}
+.Menu:hover{
+    background-color: #48576a;
+}*/
+.ant-menu-vertical .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title {
+    height: 52px;
+    line-height: 52px;
+}
+
+.ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
+    height: 46px;
+    line-height: 46px;
+}

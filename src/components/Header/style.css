@@ -1,0 +1,13 @@
+.header{
+    position: relative;
+    height: 64px;
+}
+.header-picMenu-warp{
+    position: relative;
+}
+.header-picMenu{
+    position: absolute;
+    right: 0;
+    bottom: -156px;
+    width: 100px;
+}

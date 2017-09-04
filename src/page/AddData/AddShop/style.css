@@ -1,0 +1,52 @@
+.addshop-warp{
+    min-height: 100px;
+    position: relative;
+}
+.addshop-login{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    margin-left: -20px;
+    margin-top: -20px;
+}
+label{
+    font-size: 14px;
+    color: #48576a !important;
+}
+.addshop-switch{
+    display: inline-block;
+}
+.addshop-switch .ant-col-3{
+    width: 80px;
+}
+.addshop-times{
+    margin-right: 20px;
+    display: inline-block;
+}
+.addshop-getTime{
+    width:112px;
+}
+.addshop-button{
+    margin:0 auto;
+    display: block;
+    margin-bottom: 200px;
+}
+
+.avatar-uploader,
+.avatar-uploader-trigger,
+.avatar {
+  width: 150px;
+  height: 150px;
+}
+.avatar-uploader {
+  display: block;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #999;
+}

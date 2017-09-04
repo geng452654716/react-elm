@@ -2,12 +2,13 @@ import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-rout
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {Layout, Breadcrumb,message} from 'antd';
-import * as userInfoActionsFromOtherFile from '../action'
+import * as userInfoActionsFromOtherFile from '../action/state'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import Home from '../page/Home'
 
 import Menu from '../components/Menu'
-import {routerData,loginData} from './RouterData'
+import {MenuData,loginData} from '../components/Menu/data'
 import HeaderCom from '../components/Header'
 
 const {Header,Sider} = Layout;
@@ -18,59 +19,47 @@ class RouterMap extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = {
             collapsed: false, //菜单收起来还是展开
-            breadcrumb:[],//面包屑
+            breadcrumb:[], //面包屑
         }
     }
     //控制菜单展开收起
     onCollapse = (collapsed) => {
         this.setState({ collapsed });
     }
-    //获取菜单点击的是谁
-    getbreadcrumb = (breadcrumb) => {
-        this.setState({breadcrumb})
-    }
-
-    //修改redux登录状态
-    setUserLogin = (login) => {
-        if (login == null) {
-            return
-        }
-        this.props.userInfoActions.userlogin(login)
-    }
-
-    //redux 记录用户信息
-    setUserInfo = (userName,password) => {
-        this.props.userInfoActions.userInfo({
-            userName,
-            password
-        })
-    }
 
     //判断localStorage以前是否登录过
     componentDidMount() {
-        if(localStorage.username && localStorage.password){
-            this.props.userInfoActions.userlogin(true)
-            message.success('检测您曾经登录过，本次自动登录')
-            this.props.userInfoActions.userInfo({
-                userName:localStorage.username,
-                password:localStorage.password
-            })
+        if(localStorage.userInfo){
+            this.props.userInfoAction.userInfo(JSON.parse(localStorage.userInfo))
+            message.success('系统检测到您曾经登录过，已自动登录')
         }
-        this.setVip();
-    }
-
-    //判断用户是否VIP
-    setVip = () => {
-        if(localStorage.username === 'admin'){
-            this.props.userInfoActions.VIP(true)
-        }else{
-            this.props.userInfoActions.VIP(false)
+        if(localStorage.city){
+            this.props.userInfoAction.city(JSON.parse(localStorage.city))
+        }
+        if(localStorage.assortment){
+            this.props.userInfoAction.shopAssortment(JSON.parse(localStorage.assortment))
         }
     }
     render() {
         //登陆后的路由控制
-        let routers = routerData.map((router, index) => {
-            return <Route key={index} path={router.path} exact={router.exact} render={router.render}/>
+        let routers = MenuData.map((router, index) => {
+            return (
+                !router.children
+                ?
+                    router.path
+                    ?
+                        <Route key={router.key} path={router.path} exact={router.exact} render={router.render}/>
+                    :null
+                :
+                    router.children.map((router,index) => {
+                        return(
+                            router.path
+                            ?
+                                <Route key={router.key} path={router.path} exact={router.exact} render={router.render}/>
+                            :null
+                        )
+                    })
+            )
         })
 
         //登录前的路由控制
@@ -78,23 +67,21 @@ class RouterMap extends React.Component {
             return <Route key={index} path={router.path} exact={router.exact} render={router.render.bind(this)}/>
         })
 
-
+        //菜单属性
         let MenuAttr = {
-            collapsed:this.state.collapsed,
-            selected:this.state.selected,
-            getbreadcrumb:this.getbreadcrumb
+            collapsed:this.state.collapsed
         }
 
+        //头部属性
         let HeaderAttr = {
-            breadcrumb:this.state.breadcrumb,
-            userloain:this.state.userloain,
-            setUserLogin:this.setUserLogin,
-            setUserInfo:this.setUserInfo
+            breadcrumb:this.state.breadcrumb
         }
+
+
         return (
             <Router>
                 <div style={{height:'100%'}}>
-                    {this.props.userlogin
+                    {this.props.userInfo
                         ? (
                             <Layout style={{height:'100%'}}>
                                 <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
@@ -110,6 +97,7 @@ class RouterMap extends React.Component {
                                     </Header>
                                     <Switch>
                                         {routers}
+                                        <Route path='*' component={Home}/>
                                     </Switch>
                                 </Layout>
                             </Layout>
@@ -130,16 +118,12 @@ class RouterMap extends React.Component {
 // -------------------redux react 绑定--------------------
 
 function mapStateToProps(state) {
-    return {
-        userlogin: state.userlogin,
-        VIP:state.VIP,
-        userName:state.userName
-    }
+    return state
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        userInfoActions: bindActionCreators(userInfoActionsFromOtherFile, dispatch),
+        userInfoAction:bindActionCreators(userInfoActionsFromOtherFile,dispatch)
     }
 }
 export default connect(

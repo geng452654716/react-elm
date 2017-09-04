@@ -2,6 +2,11 @@ import React from 'react'
 import {Breadcrumb,Avatar,Menu,Dropdown,message,Spin} from 'antd'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import * as userInfoActionsFromOtherFile from '../../action/state'
+import {bindActionCreators} from 'redux'
+
+
 import './style.css'
 
 import * as fetch from '../../fetch'
@@ -14,19 +19,18 @@ class Header extends React.Component {
             spin:false, //等待框是否显示
         }
     }
+
+    //头像下方菜单点击事件
     click = (e) => {
-        this.setState({spin:true})
         let _this = this;
         if(e.key === '2'){
-            fetch.outLogin(function(data){
-                if(data.status === 1){
-                    _this.props.setUserLogin(false);
-                    _this.props.setUserInfo({
-                        userName:null,
-                        password:null,
-                    })
-                    localStorage.removeItem('username');
-                    localStorage.removeItem('password');
+            _this.setState({spin:true})
+            fetch.outLogin()
+            .then(res=>res.json())
+            .then((json) => {
+                if(json.status === 1){
+                    localStorage.clear();
+                    _this.props.userInfoActions.userInfo(null);
                     message.success('退出成功');
                 }else{
                     _this.setState({spin:false})
@@ -35,11 +39,12 @@ class Header extends React.Component {
             })
         }
     }
+
     componentWillUnmount(){
         this.setState({spin:false})
     }
     render() {
-        let {breadcrumb,userloain} = this.props;
+        let {breadcrumb,userInfo} = this.props;
         breadcrumb = breadcrumb.map((e,i) => {
             let style = {
                 color:'#97a8be',
@@ -63,7 +68,7 @@ class Header extends React.Component {
                     {breadcrumb}
                 </Breadcrumb>
                 <Dropdown overlay={menu}>
-                    <Avatar shape="square" size="large" icon="user" style={{float:'right',marginTop:'12px'}}
+                    <Avatar shape="square" size="large" src={`http://ovi8yxbuf.bkt.clouddn.com/${userInfo.data.avatar}`} style={{float:'right',marginTop:'12px'}}
                         className='header-pic'
                     />
                 </Dropdown>
@@ -76,4 +81,21 @@ class Header extends React.Component {
         )
     }
 }
-export default Header
+
+/* ********************    react-redux 数据绑定    ******************************* */
+function mapStateToProps(state) {
+    return {
+        breadcrumb:state.breadcrumb,
+        userInfo:state.userInfo
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        userInfoActions:bindActionCreators(userInfoActionsFromOtherFile,dispatch)
+    }
+}
+export default Header =  connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header)

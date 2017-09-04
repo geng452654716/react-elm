@@ -1,9 +1,13 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as userInfoActionsFromOtherFile from '../../action/state'
+import * as userInfoActionsFetch from '../../action/fetchMiddle'
 
 import {Input, Button, Form, Icon,message,Spin} from 'antd'
 import * as fetch from '../../fetch'
+
 
 import './style.css'
 
@@ -23,21 +27,18 @@ class Login extends React.Component {
         this.setState({spin:true});
         let _this = this;
         //登录请求
-        fetch.login(fromData.userName,fromData.password,function(data){
+        fetch.login(fromData.userName,fromData.password)
+        .then(res=>res.json())
+        .then((json) => {
             //请求成功
-            if(data.status === 1){
-                localStorage.username = fromData.userName;
-                localStorage.password = fromData.password;
+            if(json.status === 1){
                 message.success('登录成功')
                 _this.setState({spin:false})
-                _this.props.form.setFields
 
-                //更新redux
-                _this.props.setUserLogin(true);
-                //redux 记录用户信息
-                _this.props.setUserInfo(fromData.userName,fromData.password)
-                
-            }else if(data.status === 0){
+                //更新redux用户信息
+                _this.props.userInfoFetch.setUserInfo();
+
+            }else if(json.status === 0){
                 message.error('密码错误')
                 _this.setState({spin:false})
             }else{
@@ -99,4 +100,20 @@ class Login extends React.Component {
     }
 }
 
-export default Login = Form.create({})(Login);
+
+function mapStateToProps(state) {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        userInfoActions: bindActionCreators(userInfoActionsFromOtherFile, dispatch),
+        userInfoFetch: bindActionCreators(userInfoActionsFetch, dispatch),
+    }
+}
+Login =  connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)
+
+export default  Form.create()(Login);

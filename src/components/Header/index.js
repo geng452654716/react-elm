@@ -57,7 +57,7 @@ class Header extends React.Component {
                     <Link to='/'>首页</Link>
                 </Menu.Item>
                 <Menu.Item key='2'>
-                    退出
+                    <Link to='/'>退出</Link>
                 </Menu.Item>
             </Menu>
         )

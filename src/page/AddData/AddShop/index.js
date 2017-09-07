@@ -15,7 +15,8 @@ import {
     Icon,
     Modal,
     Table,
-    Popconfirm
+    Popconfirm,
+    message
 } from 'antd';
 
 import {MenuData} from '../../../components/Menu/data'
@@ -72,7 +73,9 @@ class AddShop extends React.Component {
                         _this.setState({address:json})
                     }
                 }
-            });
+            }).catch(() => {
+                message.error('请求失败，请检查网络')
+            })
         }
 
         timeout = setTimeout(fake, 300);
@@ -211,14 +214,20 @@ class AddShop extends React.Component {
             activities:activityList
         }).then(response => response.json())
         .then(json=>{
-            this.props.userInfoActionsFetchMiddle.getShopAllList(city.latitude,city.longitude);
-            this.props.userInfoActionsState.changePage(0)
+            if(json.status === 1){
+                this.props.userInfoActionsFetchMiddle.getShopAllList(city.latitude,city.longitude);
+                this.props.userInfoActionsState.changeShopPage(1)
+                message.success('创建店铺成功')
+            }else{
+                message.error(json.message)
+            }
+        }).catch(() => {
+            message.error('请求失败，请检查网络')
         })
     }
 
     //修复下拉框定位问题
     getPopupContainer = (trigger) => {
-        console.log (trigger)
         return trigger.parentNode;
     }
     render() {
@@ -538,7 +547,7 @@ class AddShop extends React.Component {
                              wrapperCol={{
                             span: 13
                         }}>
-                            {getFieldDecorator('activity')(<Table dataSource={this.state.activityList} columns={columns} ></Table>)}
+                            {getFieldDecorator('activity')(<Table dataSource={this.state.activityList} columns={columns} pagination={false}></Table>)}
                         </FormItem>
                         <FormItem
                           wrapperCol={{ span: 12, offset: 6 }}
@@ -559,7 +568,7 @@ function mapStateToProps(state) {
         city: state.city,
         assortment:state.assortment,
         shopAllList:state.shopAllList,
-        page:state.page,
+        shopPage:state.shopPage,
     }
 }
 

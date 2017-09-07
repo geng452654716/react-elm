@@ -1,0 +1,13 @@
+.addGoods .ant-select{
+    width: 100%;
+}
+
+.addgood-button{
+    display: block;
+    margin:0 auto;
+}
+.addgood-warp{
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 100px;
+}

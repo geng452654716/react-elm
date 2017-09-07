@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as userInfoActionsFromOtherFile from '../../action/state'
-import * as userInfoActionsFetch from '../../action/fetchMiddle'
+import * as userInfoActionsFetchMiddle from '../../action/fetchMiddle'
 
 import {Input, Button, Form, Icon,message,Spin} from 'antd'
 import * as fetch from '../../fetch'
@@ -36,15 +36,15 @@ class Login extends React.Component {
                 _this.setState({spin:false})
 
                 //更新redux用户信息
-                _this.props.userInfoFetch.setUserInfo();
-
-            }else if(json.status === 0){
-                message.error('密码错误')
-                _this.setState({spin:false})
+                _this.props.userInfoActionsFetchMiddle.setUserInfo();
+                //更新城市信息
+                _this.props.userInfoActionsFetchMiddle.getCity();
             }else{
-                message.error('登录失败')
+                message.error(json.message)
                 _this.setState({spin:false})
             }
+        }).catch(()=>{
+            message.error('网络超时，请检查网络后再试')
         })
     }
     render() {
@@ -108,7 +108,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         userInfoActions: bindActionCreators(userInfoActionsFromOtherFile, dispatch),
-        userInfoFetch: bindActionCreators(userInfoActionsFetch, dispatch),
+        userInfoActionsFetchMiddle: bindActionCreators(userInfoActionsFetchMiddle, dispatch),
     }
 }
 Login =  connect(

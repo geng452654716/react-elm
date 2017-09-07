@@ -1,0 +1,22 @@
+.shopList-btn{
+    height: 25px;
+    margin-right: 8px;
+}
+.shopList-red{
+    background-color: red;
+    color: #fff;
+}
+.shopList-details{
+    float: left;
+    width: 50%;
+    line-height: 36px;
+}
+.clear:after{
+    content: '';
+    clear: both;
+}
+.shopList-title{
+    display: inline-block;
+    width: 90px;
+    color: #99a9bf;
+}

@@ -29,13 +29,16 @@ class RouterMap extends React.Component {
 
     //判断localStorage以前是否登录过
     componentDidMount() {
+        //本地有用户信息，存入redux
         if(localStorage.userInfo){
             this.props.userInfoAction.userInfo(JSON.parse(localStorage.userInfo))
             message.success('系统检测到您曾经登录过，已自动登录')
         }
+        //本地有城市信息，存入redux
         if(localStorage.city){
             this.props.userInfoAction.city(JSON.parse(localStorage.city))
         }
+        //本地有食品分类信息，存入redux
         if(localStorage.assortment){
             this.props.userInfoAction.shopAssortment(JSON.parse(localStorage.assortment))
         }

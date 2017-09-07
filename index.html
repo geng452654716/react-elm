@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style>
+            .div1{
+                width: 500px;
+                height: 500px;
+                border: 1px solid #000;
+                position: relative;
+            }
+            .div2{
+                width: 200px;
+                height: 200px;
+                position: absolute;
+                left: 50%;
+                top:50%;
+                transform: translate(-50%,-50%);
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            let str = 'my name is {name},my age is {age}'
+            let obj = {
+                name:'lihong',
+                age:18
+            }
+
+            var str2 = str.replace(/{name}|{age}/g,function($0){
+                if($0 == '{name}'){
+                    return obj.name;
+                }else if($0 == '{age}'){
+                    return obj.age;
+                }
+            })
+            console.log (str2)
+        </script>
+    </body>
+</html>

@@ -50,16 +50,43 @@ export function getShopAssortment(){
 }
 
 //获取全部店铺列表
-export function getShopAllList(latitude,longitude,page=0){
+export function getShopAllList(latitude,longitude,page=1,callback=function(){}){
     return function(dispatch,getStore){
         return getFetch('shopping/restaurants',{
             latitude,
             longitude,
-            offset:page*20
+            offset:(page-1)*10,
+            limit:10,
         })
         .then(response =>response.json())
         .then((json) => {
             dispatch(userInfoActionsFromOtherFile.shopAllList(json))
+            callback();
+        })
+    }
+}
+
+//获取店铺食品分类
+export function getGoodsType(id){
+    return function(dispatch,getStore){
+        return getFetch('shopping/getcategory/'+id)
+        .then(response=>response.json())
+        .then((json) => {
+            if(json.status === 1){
+                dispatch(userInfoActionsFromOtherFile.goodsType(json))
+            }
+        })
+    }
+}
+
+//获取全部食品列表
+export function getGoodsAllList(page=1,id,callback=function(){}){
+    return function(dispatch,getStore){
+        return getFetch(`shopping/v2/foods?offset=${(page-1)*10}&limit=10&restaurant_id=${id}`)
+        .then(response=>response.json())
+        .then((json) => {
+            dispatch(userInfoActionsFromOtherFile.goodsAllList(json))
+            callback();
         })
     }
 }

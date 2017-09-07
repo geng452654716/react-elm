@@ -1,0 +1,27 @@
+.addGoods-title{
+    text-align: center;
+    line-height: 21px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000;
+    margin-right: 8%;
+}
+.addGoods-addtype{
+    border: none;
+}
+.addTypeBtn{
+    margin-left: 41%;
+}
+.addGoodsTypeWorp{
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+.addGoodsTypeWorp .ant-card-body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+.addGoodsTypeWorp .ant-collapse > .ant-collapse-item{
+    border: none;
+}

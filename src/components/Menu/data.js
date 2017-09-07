@@ -24,7 +24,7 @@ export const MenuData = [
         key:'index',
         icon:'appstore',
         exact: true,
-        render: (children) => <Home children={children}/>
+        render: () => <Home />
     },
     {
         name:'数据管理',
@@ -82,10 +82,10 @@ export const MenuData = [
             },
             {
                 name:'添加食品',
-                path:'/addData/addGoods',
+                path:'/addData/addGoods/:id',
                 key:'addGoods',
                 exact: false,
-                render: () => <AddGoods/>
+                render: (children) => <AddGoods children={children}/>
             }
         ]
     },

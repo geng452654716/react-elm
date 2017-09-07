@@ -6,21 +6,21 @@ export function getBreadcrumb(arr){
         let path = window.location.pathname;
         let breadcrumb = [];
         let pathArr = path.split('/');
-        fn(arr);
-        function fn(arr){
-            for(let i=1;i<pathArr.length;i++){
-                arr.forEach((e) => {
-                    if(pathArr[pathArr.length-1] === e.key && !e.path){
-                        return;
+        for(let i=1;i<pathArr.length;i++){
+            fn(arr,i);
+        }
+        function fn(arr,i){
+            for(let j=0;j<arr.length;j++){
+                if(pathArr[pathArr.length-1] == arr[j].key && !arr[j].path){
+                    break;
+                }
+                if(pathArr[i] == arr[j].key){
+                    breadcrumb.push(arr[j].name)
+                }else{
+                    if(arr[j].children){
+                        fn(arr[j].children,i)
                     }
-                    if(pathArr[i] == e.key){
-                        breadcrumb.push(e.name)
-                    }else{
-                        if(e.children){
-                            fn(e.children)
-                        }
-                    }
-                })
+                }
             }
         }
         dispatch(userInfoActionsFromOtherFile.breadcrumb(breadcrumb))

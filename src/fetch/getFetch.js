@@ -1,6 +1,6 @@
-export function getFetch(url='',data={},type='GET'){
+export function getFetch(url='',data={},type='GET',service='http://localhost:8001/'){
 	type = type.toUpperCase();
-	if (type == 'GET') {
+	if (type == 'GET' || type == 'DELETE') {
 		let dataStr = ''; //数据拼接字符串
 		Object.keys(data).forEach(key => {
 			dataStr += key + '=' + data[key] + '&';
@@ -26,5 +26,5 @@ export function getFetch(url='',data={},type='GET'){
     		body: JSON.stringify(data)
     	})
     }
-    return fetch(`http://localhost:8001/` + url,requestConfig)
+    return fetch(service + url,requestConfig)
 }

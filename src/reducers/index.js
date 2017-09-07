@@ -1,11 +1,13 @@
 const initialState = {
-    userInfo:null,
-    breadcrumb:[],
-    address:[],
-    city:null,
-    assortment:[],
-    shopAllList:null,
-    page:0,
+    userInfo:null, //用户信息
+    breadcrumb:[],  //面包屑
+    city:null, //当前定位城市信息
+    assortment:[], //商品分类
+    shopAllList:null, //店铺列表
+    shopPage:1, //当前店铺展示页数
+    goodsType:null, //当前店铺食品分类列表
+    goodsAllList:null,  //食品列表
+    goodsPage:1, //当前食品展示页数
 };
 
 export default function Reducers(state = initialState,action) {
@@ -32,9 +34,21 @@ export default function Reducers(state = initialState,action) {
             return Object.assign({},state,{
                 shopAllList:action.data,
             })
-        case "CHANGE_PAGE":
+        case "CHANGE_SHOPPAGE":
             return Object.assign({},state,{
-                page:action.data,
+                shopPage:action.data,
+            })
+        case "GOODS_TYPE":
+            return Object.assign({},state,{
+                goodsType:action.data,
+            })
+        case "GOODS_ALL_LIST":
+            return Object.assign({},state,{
+                goodsAllList:action.data,
+            })
+        case "CHANGE_GOODSPAGE":
+            return Object.assign({},state,{
+                goodsPage:action.data,
             })
         default:
             return state

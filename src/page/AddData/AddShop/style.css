@@ -44,7 +44,7 @@ label{
   border-radius: 6px;
   cursor: pointer;
 }
-.avatar-uploader-trigger {
+.avatar-uploader .avatar-uploader-trigger {
   display: table-cell;
   vertical-align: middle;
   font-size: 28px;

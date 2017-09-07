@@ -38,10 +38,34 @@ export function shopAllList(data){
     }
 }
 
-//改变页码
-export function changePage(data){
+//改变店铺页码
+export function changeShopPage(data){
     return {
-        type:'CHANGE_PAGE',
+        type:'CHANGE_SHOPPAGE',
+        data,
+    }
+}
+
+//当前店铺食品种类
+export function goodsType(data){
+    return {
+        type:'GOODS_TYPE',
+        data,
+    }
+}
+
+//全部食品列表
+export function goodsAllList(data){
+    return {
+        type:'GOODS_ALL_LIST',
+        data,
+    }
+}
+
+//改变食品页码
+export function changeGoodsPage(data){
+    return {
+        type:'CHANGE_GOODSPAGE',
         data,
     }
 }
